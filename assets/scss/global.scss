@@ -1,0 +1,9 @@
+@import './import.scss';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $default-typo;
+    font-size: $default-font-size;
+}

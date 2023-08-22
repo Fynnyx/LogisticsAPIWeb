@@ -1,0 +1,30 @@
+{
+  "name": "logistics-web",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@types/node": "^18.17.1",
+    "nuxt": "^3.6.5",
+    "sass": "^1.65.1",
+    "sass-loader": "^13.3.2"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@nuxt/http": "^0.6.4",
+    "@pinia/nuxt": "^0.4.11",
+    "pinia": "^2.1.6",
+    "typecheck": "^0.1.2"
+  },
+  "overrides": {
+    "vue": "latest"
+  }
+}
