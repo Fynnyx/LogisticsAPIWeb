@@ -1,9 +1,9 @@
+import { LoginDetails } from "types/components/LoginDetails";
 import { NotificationType } from "../types/components/Notification";
 import { User } from "../types/User";
 import { useNotificationsStore } from "./notifications";
 
-const api = process.env.API_BASE_URL;
-const notificationsStore = useNotificationsStore();
+import nuxtStorage from 'nuxt-storage';
 
 export const useUserStore = defineStore(
     "UserStore",
@@ -11,8 +11,17 @@ export const useUserStore = defineStore(
         state: () => ({
             user: {} as User,
             token: null as string | null,
+            isLoggedIn: false
         }),
         getters: {
+            loadProperties(): void {
+                const loginDetails = nuxtStorage.localStorage.getData('loginDetails');
+                if (loginDetails) {
+                    this.user = loginDetails;
+                    this.token = loginDetails.token;
+                    this.isLoggedIn = true;
+                }
+            },
             getUser(): User {
                 return this.user;
             },
@@ -21,6 +30,12 @@ export const useUserStore = defineStore(
             }
         },
         actions: {
+            setProperties(user: User, token: string | null, isLoggedIn: boolean) {
+                this.user = user;
+                this.token = token;
+                this.isLoggedIn = isLoggedIn;
+                nuxtStorage.localStorage.setData('loginDetails', user);
+            },
             setUser(user: User) {
                 this.user = user;
             },
@@ -30,20 +45,30 @@ export const useUserStore = defineStore(
             logout() {
                 this.user = {} as User;
                 this.token = null;
+                this.isLoggedIn = false;
             },
             async login(username: string, password: string) {
-                const { data, error, pending, refresh } = await useFetch(`${api}/auth/signin`, {
+                const notificationsStore = useNotificationsStore();
+                const api = process.env.API_BASE_URL;
+                const { data, error, pending, refresh } = await useFetch(`http://localhost:8080/auth/user/signin`, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        username,
-                        password
-                    })
+                    body: {
+                        username: username,
+                        password: password
+                    }
                 });
-                console.log(data);
-                // Check for 200 status code
-                if (error.value?.statusCode === 200) {
-                    // this.setToken(apiUser?.token);
-                    // this.setUser(apiUser?.user);
+                const user = data.value as LoginDetails;
+                if (error.value?.statusCode === 200 || error.value == null) {
+                    this.user = user.user;
+                    this.token = user.token;
+                    this.isLoggedIn = true;
+                    notificationsStore.addNotificationToStore(
+                        {
+                            header: 'Login successful',
+                            message: 'You have been logged in as ' + user.user.username + '.',
+                            type: NotificationType.SUCCESS
+                        }
+                    );
                 } else if (error.value?.statusCode === 401) {
                     notificationsStore.addNotificationToStore(
                         {
@@ -53,10 +78,11 @@ export const useUserStore = defineStore(
                         }
                     );
                 } else {
+                    console.log(error);
                     notificationsStore.addNotificationToStore(
                         {
                             header: 'Login failed',
-                            message: 'Something went wrong',
+                            message: (error.value?.message ? error.value?.message : 'An unknown error occurred'),
                             type: NotificationType.ERROR
                         }
                     );

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { User } from 'types/User';
 import { useUserStore } from '@/store/user';
+import { User } from 'types/User';
 
 const config = useRuntimeConfig()
 const userStore = useUserStore()
@@ -12,19 +12,8 @@ const user = {
 }
 
 async function handleLogin() {
-    const response = await fetch(`${config.API_BASE_URL}/auth/signin`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    })
-
-    const data = await response.json()
-
-    if (data.token) {
-        userStore.setToken(data.token)
-    }
+    console.log("logging in with user: ", user);
+    userStore.login(user.username, user.password)
 }
 
 
@@ -32,12 +21,11 @@ async function handleLogin() {
 </script>
 
 <template>
+    <h1>Login</h1>
     <div class="login-container">
-        <form>
-            <input v-model="user.username" type="text" placeholder="Username" />
-            <input v-model="user.password" type="password" placeholder="Password" />
-            <button @click="" type="submit">Login</button>
-        </form>
+        <input v-model="user.username" type="text" placeholder="Username" />
+        <input v-model="user.password" type="password" placeholder="Password" />
+        <button @click="handleLogin">Login</button>
     </div>    
 </template>
 
@@ -46,15 +34,7 @@ async function handleLogin() {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100vw;
-}
-
-form {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     width: 80%;
     height: 300px;
     border-radius: 5px;

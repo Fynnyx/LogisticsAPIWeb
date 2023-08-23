@@ -23,7 +23,7 @@ async function fetchProjectData<Project>(keyName:String) {
     {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmeW5udXNlciIsImlhdCI6MTY5MjI1NzQxMSwiZXhwIjoxNjkyMzQzODExLCJpc3MiOiJsb2dpc3RpY3MtYXBpIn0.LJoGpQrwxt-FH1x5YL94mu6hEkd5zdD2I1YApLSKHYs'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmeW5uYWRtaW4iLCJpYXQiOjE2OTI3NzE1ODMsImV4cCI6MTY5Mjg1Nzk4MywiaXNzIjoibG9naXN0aWNzLWFwaSJ9.bWujvqx5b4r48TcH5m0tW343fm8mqqrwtX1fC3sBoOE'
         }
     }
     )

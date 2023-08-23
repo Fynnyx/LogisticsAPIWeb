@@ -1,9 +1,19 @@
+<script lang="ts" setup>
+import { useUserStore } from '@/store/user';
+
+const logindetails = useUserStore()
+
+</script>
+
 <template>
     <div class="default-layout">
         <NotificationBox/>
         <header>
             <nav>
                 <a href="/">Home</a>
+
+                <span v-if="logindetails.isLoggedIn">Logged in as {{ logindetails.user.username }}</span>
+                <a v-else href="/auth/login">Login</a>
             </nav>
         </header>
         <div class="default-content">
@@ -28,7 +38,7 @@
 
     nav {
         display: flex;
-        justify-content: space-between;
+        gap: 1rem;
 
         & > a {
             color: #fff;

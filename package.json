@@ -21,6 +21,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@nuxt/http": "^0.6.4",
     "@pinia/nuxt": "^0.4.11",
+    "nuxt-storage": "^1.2.2",
     "pinia": "^2.1.6",
     "typecheck": "^0.1.2"
   },

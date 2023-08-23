@@ -4,6 +4,7 @@ import { User } from 'types/User';
 import { Notification, NotificationType } from '@/types/components/Notification';
 
 import { useNotificationsStore } from '@/store/notifications';
+import { useUserStore } from '@/store/user';
 
 const notificationStore = useNotificationsStore()
 
@@ -29,11 +30,13 @@ notificationStore.addNotificationToStore(
 let projects: Project[] = []
 
 async function fetchUserData<User>() {
+  const userStore = useUserStore()
+  console.log(userStore.token);
   const { data, error, pending, refresh } = await useFetch('http://localhost:8080/user',
     {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmeW5uYWRtaW4iLCJpYXQiOjE2OTIyNzYzODAsImV4cCI6MTY5MjM2Mjc4MCwiaXNzIjoibG9naXN0aWNzLWFwaSJ9.9Rs5W7Ar_m5-BNY8eXr6hNDesCWZgTWAakO0gOlOy5s'
+        'Authorization': `Bearer ${userStore.token}`
       }
     }
   )
@@ -56,8 +59,9 @@ projects = userData.projects
 </script>
 
 <template>
+  <h1>Home</h1>
+
   <div class="project-card-container">
-    <h1>Home</h1>
     <ul class="project-card-list">
       <li v-for="project in projects" :key="(project.keyName as string)" class="project-card-item">
         <ProjectCard :project="project" />

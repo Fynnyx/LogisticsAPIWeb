@@ -1,4 +1,23 @@
 h1 {
     font-size: $headings-font-size-h1;
     align-self: center;
+    margin: 15px;
+}
+
+h2 {
+    font-size: $headings-font-size-h2;
+    align-self: center;
+    margin: 15px;
+}
+
+h3 {
+    font-size: $headings-font-size-h3;
+    align-self: center;
+    margin: 10px;
+}
+
+h4 {
+    font-size: $headings-font-size-h4;
+    align-self: center;
+    margin: 10px;
 }
