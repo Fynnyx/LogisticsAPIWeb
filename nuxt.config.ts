@@ -14,7 +14,8 @@ export default defineNuxtConfig({
 
   ],
   modules: [
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    // 'nuxt-storage'
   ],
   pinia: {
     autoImports: [
@@ -26,9 +27,5 @@ export default defineNuxtConfig({
     dirs: [
       '~/store'
     ]
-  },
-  // Set Runtime Config
-  publicRuntimeConfig: {
-    API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:8080'
   },
 })

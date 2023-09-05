@@ -1,22 +1,24 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/store/user';
-import { User } from 'types/User';
+import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
+import { useAuthStore } from '~/store/auth'; // import the auth store we just created
 
-const config = useRuntimeConfig()
-const userStore = useUserStore()
+const { authenticateUser } = useAuthStore(); // use authenticateUser action from  auth store
 
-const user = {
-    username: '',
-    password: '',
-    token: ''
-}
+const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 
-async function handleLogin() {
-    console.log("logging in with user: ", user);
-    userStore.login(user.username, user.password)
-}
+const user = ref({
+  username: '', 
+  password: '',
+})
+const router = useRouter();
 
-
+const login = async () => {
+  await authenticateUser(user.value); // call authenticateUser and pass the user object
+  // redirect to homepage if user is authenticated
+  if (authenticated) {
+    router.push('/');
+  }
+};
 
 </script>
 
@@ -25,7 +27,7 @@ async function handleLogin() {
     <div class="login-container">
         <input v-model="user.username" type="text" placeholder="Username" />
         <input v-model="user.password" type="password" placeholder="Password" />
-        <button @click="handleLogin">Login</button>
+        <button @click="login">Login</button>
     </div>    
 </template>
 

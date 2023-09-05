@@ -11,8 +11,12 @@ import { Project } from '@/types/Project';
 import { NotificationType } from '@/types/components/Notification';
 
 import { useNotificationsStore } from '@/store/notifications';
+import { useAuthStore } from '@/store/auth';
+import { storeToRefs } from 'pinia';
 
 const notificationStore = useNotificationsStore()
+
+const { user, token } = storeToRefs(useAuthStore())
 
 let project: Project 
 const $route = useRoute()
@@ -23,12 +27,12 @@ async function fetchProjectData<Project>(keyName:String) {
     {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmeW5uYWRtaW4iLCJpYXQiOjE2OTI3NzE1ODMsImV4cCI6MTY5Mjg1Nzk4MywiaXNzIjoibG9naXN0aWNzLWFwaSJ9.bWujvqx5b4r48TcH5m0tW343fm8mqqrwtX1fC3sBoOE'
+            'Authorization': `Bearer ${token.value}`
         }
     }
     )
     if (error.value) {
-        console.log(error.value);
+        console.error(error.value);
     }
     console.log(data);
     return data.value as Project
@@ -43,5 +47,4 @@ notificationStore.addNotificationToStore(
         type: NotificationType.SUCCESS
     }
 )
-console.log(project);
 </script>

@@ -4,58 +4,22 @@ import { User } from 'types/User';
 import { Notification, NotificationType } from '@/types/components/Notification';
 
 import { useNotificationsStore } from '@/store/notifications';
-import { useUserStore } from '@/store/user';
+import { useAuthStore } from '@/store/auth';
+import { storeToRefs } from 'pinia';
 
 const notificationStore = useNotificationsStore()
 
+const { user } = storeToRefs(useAuthStore())
+
 definePageMeta({
+  // middleware: 'auth',
   title: 'Home',
   description: 'Home page',
   keywords: 'home, page',
   layout: 'default',
 })
-
-let requestStatus: Object = {
-  error: false,
-  pending: false,
-}
-
-notificationStore.addNotificationToStore(
-  {
-    header: 'Welcome',
-    message: 'Welcome to the home page',
-    type: NotificationType.SUCCESS
-  }
-)
-let projects: Project[] = []
-
-async function fetchUserData<User>() {
-  const userStore = useUserStore()
-  console.log(userStore.token);
-  const { data, error, pending, refresh } = await useFetch('http://localhost:8080/user',
-    {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userStore.token}`
-      }
-    }
-  )
-  requestStatus = { error, pending }
-  if (error.value) {
-    requestStatus = { error, pending }
-    notificationStore.addNotificationToStore(
-      {
-        header: 'Error',
-        message: error.value.message,
-        type: NotificationType.ERROR
-      }
-    )
-  }
-  return data.value as User
-}
-
-const userData: User = await fetchUserData<User>()
-projects = userData.projects
+let projects: Project[] | null = []
+projects = user.value?.projects
 </script>
 
 <template>

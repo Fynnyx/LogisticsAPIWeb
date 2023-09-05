@@ -1,49 +1,70 @@
 <script lang="ts" setup>
-import { useUserStore } from '@/store/user';
+import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
+import { useAuthStore } from '~/store/auth'; // import the auth store we just created
 
-const logindetails = useUserStore()
+const router = useRouter();
 
+const { logUserOut } = useAuthStore(); // use authenticateUser action from  auth store
+const { authenticated, user } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+
+const logout = () => {
+    logUserOut();
+    router.push('/auth/login');
+};
 </script>
 
 <template>
     <div class="default-layout">
-        <NotificationBox/>
+        <NotificationBox />
         <header>
-            <nav>
-                <a href="/">Home</a>
+            <nav class="navbar">
+                <a class="navbar__item" href="/">Home</a>
 
-                <span v-if="logindetails.isLoggedIn">Logged in as {{ logindetails.user.username }}</span>
-                <a v-else href="/auth/login">Login</a>
+                <span v-if="authenticated" id="userinfo" class="navbar__item">Logged in as {{ user?.username }}</span>
+                <a v-else id="login" class="navbar__item" href="/auth/login">Login</a>
+                <a v-if="authenticated" class="navbar__item button" href="#" id="logout" @click="logout">Logout</a>
             </nav>
         </header>
         <div class="default-content">
             <slot />
+
         </div>
     </div>
 </template>
 
 <style lang="scss">
+.default-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 
-    .default-layout {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
+header {
+    background-color: $dark-grey;
+    color: #fff;
+    padding: 5px;
+}
 
-    header {
-        background-color: #333;
+.navbar {
+    display: flex;
+    gap: 1rem;
+
+    &__item:not(.button) {
         color: #fff;
+        text-decoration: none;
         padding: 10px;
+
     }
+}
+#login {
+    background-color: $primary;
+}
+#userinfo {
+    margin-left: auto;
+    font-weight: bold;
 
-    nav {
-        display: flex;
-        gap: 1rem;
-
-        & > a {
-            color: #fff;
-            text-decoration: none;
-        }
-    }
-
+}
+#logout {
+    background-color: $red;
+}
 </style>
