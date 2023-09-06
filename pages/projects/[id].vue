@@ -34,7 +34,6 @@ async function fetchProjectData<Project>(keyName:String) {
     if (error.value) {
         console.error(error.value);
     }
-    console.log(data);
     return data.value as Project
 }
 

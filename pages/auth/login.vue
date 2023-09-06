@@ -25,9 +25,9 @@ const login = async () => {
 <template>
     <h1>Login</h1>
     <div class="login-container">
-        <input v-model="user.username" type="text" placeholder="Username" />
-        <input v-model="user.password" type="password" placeholder="Password" />
-        <button @click="login">Login</button>
+        <input v-model="user.username" type="text" placeholder="Username" required autofocus/>
+        <input v-model="user.password" type="password" placeholder="Password" required />
+        <button class="button--primary" @click="login">Login</button>
     </div>    
 </template>
 
@@ -48,19 +48,6 @@ input {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid grey;
-}
-
-button {
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #4caf50;
-    border: 1px solid #ccc;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #398b3c;
 }
 
 </style>

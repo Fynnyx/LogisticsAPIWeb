@@ -7,12 +7,19 @@ export default defineNuxtConfig({
     timeline: {
       enabled: true
     }
+  }, 
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "@/assets/scss/global.scss";`
+        }
+      }
+    }
   },
   css: [
-    '~/assets/scss/global.scss',
     '@fortawesome/fontawesome-svg-core/styles.css',
-
-  ],
+  ],  
   modules: [
     '@pinia/nuxt',
     // 'nuxt-storage'

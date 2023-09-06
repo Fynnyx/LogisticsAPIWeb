@@ -41,7 +41,6 @@ export const useAuthStore = defineStore('auth', {
             const notificationStore = useNotificationsStore()
 
             try {
-                console.log(this.token);
                 const { data }: any = await useFetch('http://localhost:8080/user', {
                     method: 'GET',
                     headers: {
@@ -50,7 +49,6 @@ export const useAuthStore = defineStore('auth', {
                     },
                 });
                 this.user = data;
-                console.log(data);
             } catch {
                 notificationStore.addNotificationToStore(
                     {

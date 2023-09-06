@@ -24,7 +24,7 @@ const notifications = notificationStore.notifications
 <style lang="scss" scoped>
 .notification-box {
     position: fixed;
-    top: 0;
+    top: 40px;
     right: 0;
     width: 400px;
     height: 100%;

@@ -1,0 +1,46 @@
+$button-styles: (
+    primary: (
+        background-color: $primary,
+        color: black
+    ),
+    secondary: (
+        background-color: $secondary,
+        color: white
+    ),
+    danger: (
+        background-color: $red,
+        color: black
+    ),
+    disabled: (
+        background-color: $light-grey,
+        color: black
+    )
+);
+
+@mixin button($style) {
+    $styles: map-get($button-styles, $style);
+
+    color: map-get($styles, color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background-color: map-get($styles, background-color);
+    border: none;
+    border-radius: 0.25rem;
+    text-decoration: none;
+}
+
+.button {
+    @include button(primary);
+    @each $type, $style in $button-styles {
+        &--#{$type} {
+            @include button($type);
+
+            &:disabled {
+                @include button(disabled);
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+        }
+    }
+}

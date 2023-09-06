@@ -58,6 +58,7 @@ header {
 }
 #login {
     background-color: $primary;
+    margin-left: auto;
 }
 #userinfo {
     margin-left: auto;
