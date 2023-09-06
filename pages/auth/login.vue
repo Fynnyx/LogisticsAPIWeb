@@ -37,17 +37,8 @@ const login = async () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 80%;
     height: 300px;
     border-radius: 5px;
-}
-
-input {
-    width: 100%;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid grey;
 }
 
 </style>

@@ -1,0 +1,43 @@
+dialog,
+.dialog {
+    border: none;
+    border-radius: 20px;
+    padding: 1rem;
+
+    width: 75%;
+    min-height: 40%;
+
+    // Align the dialog in the center of the screen without using position: absolute or fixed
+    margin: auto auto;
+
+    background-color: white;
+
+    &__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+
+        border-bottom: $light-grey 1px solid;
+        &__title {
+            color: black;
+            margin: 0;
+        }
+        &__close-button {
+            border: none;
+            background-color: transparent;
+            font-size: 2rem;
+            color: black;
+            cursor: pointer;
+        }
+    }
+    &__body {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

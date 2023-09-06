@@ -7,11 +7,11 @@
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
-import { Project } from '@/types/Project';
+import { Project } from '@/types/api/Project';
 import { NotificationType } from '@/types/components/Notification';
 
 import { useNotificationsStore } from '@/store/notifications';
-import { useAuthStore } from '@/store/auth';
+import { useAuthStore } from '~/store/auth';
 import { storeToRefs } from 'pinia';
 
 const notificationStore = useNotificationsStore()

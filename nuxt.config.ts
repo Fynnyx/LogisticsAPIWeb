@@ -35,4 +35,9 @@ export default defineNuxtConfig({
       '~/store'
     ]
   },
+  runtimeConfig: {
+    public: {
+      apiUrl: 'http://localhost:8080'
+    }
+  },
 })

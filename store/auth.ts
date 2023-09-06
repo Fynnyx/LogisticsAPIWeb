@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { User } from '~/types/User';
+import { User } from '~/types/api/User';
 import { useNotificationsStore } from './notifications';
 import { NotificationType } from '~/types/components/Notification';
 

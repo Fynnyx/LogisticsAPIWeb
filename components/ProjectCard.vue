@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { Project } from 'types/Project';
-import { User } from 'types/User';
+import { Project } from 'types/api/Project';
+import { User } from 'types/api/User';
 
 const props = defineProps({
   project: {

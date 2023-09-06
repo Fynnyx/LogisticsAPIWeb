@@ -27,13 +27,12 @@ const notifications = notificationStore.notifications
     top: 40px;
     right: 0;
     width: 400px;
-    height: 100%;
+    height: max-content;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     padding: 20px;
     box-sizing: border-box;
-    z-index: 1000;
 }
 
 .notification {
@@ -48,6 +47,7 @@ const notifications = notificationStore.notifications
     line-height: 1.5;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background: #2196f3;
+    z-index: 1000;
 }
 
 .notification-title {
@@ -76,7 +76,7 @@ const notifications = notificationStore.notifications
 .notification.success {
     background: #4caf50;
 }
-
+im
 .notification.error {
     background: #f44336;
 }

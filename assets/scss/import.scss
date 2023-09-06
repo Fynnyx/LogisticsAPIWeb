@@ -1,8 +1,14 @@
 // Variables
 @import "./typo.scss";
 @import "./color.scss";
-@import "./headings.scss";
 @import "./layout.scss";
+
+// Default
+@import "./default/headings.scss";
+@import "./default/form.scss";
+@import "./default/dialog.scss";
+
+
 
 // Components
 @import "./components/button.scss";
