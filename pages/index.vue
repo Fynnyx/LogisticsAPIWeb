@@ -20,13 +20,13 @@ definePageMeta({
 })
 
 let projects: Project[] | null = []
-projects = Project.fromJsonList(user.value?.projects as JSON[])
+projects = Project.fromJsonList(user.value?.projects as any)
 </script>
 
 <template>
   <h1>Home</h1>
   <div class="project-card-container">
-    <CreateProjectComponent />
+    <ProjectDialogComponent />
 
     <ul class="project-card-list">
       <li v-for="project in projects" :key="(project.keyName as string)" class="project-card-item">
@@ -53,6 +53,7 @@ projects = Project.fromJsonList(user.value?.projects as JSON[])
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
+  margin-top: 1.5rem;
 }
 
 .project-card-item {

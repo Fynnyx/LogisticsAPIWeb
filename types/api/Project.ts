@@ -30,7 +30,6 @@ export class Project {
     }
 
     public static fromJson(json: any): Project {
-        console.log(json);
         return new Project(
             json.id,
             json.keyName,
@@ -91,6 +90,35 @@ export class Project {
         })
         useAuthStore().fetchUserData();
         return Project.fromJson(data.value as any);
+    }
+
+    static async updateProject(projectId: Number, projectData: Project): Promise<Project> {
+        const { token } = storeToRefs(useAuthStore());
+        const config = useRuntimeConfig();
+        const { data } = await useFetch(`${config.public.apiUrl}/projects/${projectId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify(projectData)
+        })
+        useAuthStore().fetchUserData();
+        return Project.fromJson(data.value as any);
+    }
+
+    static async deleteProject(projectId: Number) {
+        const { token } = storeToRefs(useAuthStore());
+        const config = useRuntimeConfig();
+        const { data } = await useFetch(`${config.public.apiUrl}/projects/${projectId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            }
+        })
+        useAuthStore().fetchUserData();
+        return data.value;
     }
 
 

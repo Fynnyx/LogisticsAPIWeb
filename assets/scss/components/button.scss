@@ -7,6 +7,10 @@ $button-styles: (
         background-color: $secondary,
         color: white
     ),
+    warning: (
+        background-color: $yellow,
+        color: black
+    ),
     danger: (
         background-color: $red,
         color: black
@@ -31,6 +35,10 @@ $button-styles: (
 
     &:hover {
         background-color: darken(map-get($styles, background-color), 10%);
+    }
+
+    & svg {
+        height: 1.26rem;
     }
 }
 
