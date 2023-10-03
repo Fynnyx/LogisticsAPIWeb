@@ -32,6 +32,7 @@ $button-styles: (
     border: none;
     border-radius: 0.25rem;
     text-decoration: none;
+    height: max-content;
 
     &:hover {
         background-color: darken(map-get($styles, background-color), 10%);

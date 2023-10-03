@@ -3,6 +3,7 @@ import { Project } from './Project';
 import { useAuthStore } from '~/store/auth';
 
 export class User {
+    id: number | null;
     firstname: string;
     lastname: string;
     username: string;
@@ -15,6 +16,7 @@ export class User {
     accountNonExpired: boolean;
 
     constructor(firstname: string, lastname: string, username: string, role: Role, projects: Project[], ownedProjects: Project[], enabled: boolean, credentialsNonExpired: boolean, accountNonLocked: boolean, accountNonExpired: boolean) {
+        this.id = null;
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;

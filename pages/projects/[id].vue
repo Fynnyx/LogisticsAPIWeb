@@ -1,38 +1,52 @@
 <template>
     <div v-if="project">
-        <h1>Project - {{ project.name }}</h1>
-        <div class="meta-bar">
-            <div class="meta-bar__start">
-                <ul class="meta-bar__start__list">
-                    <li class="meta-bar__start__list__item">
-                        <!-- Id -->
-                        <font-awesome-icon :icon="['fas', 'hashtag']" />
-                        <span class="meta-bar__start__list__item__text">{{ project.id }}</span>
-                    </li>
-                    <li class="meta-bar__start__list__item">
-                        <!-- Keyname -->
-                        <font-awesome-icon :icon="['fas', 'key']" />
-                        <span class="meta-bar__start__list__item__text">{{ project.keyName }}</span>
-                    </li>
-                    <li class="meta-bar__start__list__item">
-                        <!-- Created At -->
-                        <font-awesome-icon :icon="['fas', 'calendar-alt']" />
-                        <span class="meta-bar__start__list__item__text">{{ project.createdAt }}</span>
-                    </li>
-                </ul>
+        <div class="header">
+            <h1>Project - {{ project.name }}</h1>
+            <div class="meta-bar">
+                <div class="meta-bar__start">
+                    <ul class="meta-bar__start__list">
+                        <li class="meta-bar__start__list__item">
+                            <!-- Id -->
+                            <font-awesome-icon :icon="['fas', 'hashtag']" />
+                            <span class="meta-bar__start__list__item__text">{{ project.id }}</span>
+                        </li>
+                        <li class="meta-bar__start__list__item">
+                            <!-- Keyname -->
+                            <font-awesome-icon :icon="['fas', 'key']" />
+                            <span class="meta-bar__start__list__item__text">{{ project.keyName }}</span>
+                        </li>
+                        <li class="meta-bar__start__list__item">
+                            <!-- Created At -->
+                            <font-awesome-icon :icon="['fas', 'calendar-alt']" />
+                            <span class="meta-bar__start__list__item__text">{{ project.createdAt }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="meta-bar__end">
+                    <ProjectDialogComponent :project="project" />
+                    <button @click="deleteProject" class="button--danger">
+                        <font-awesome-icon :icon="['fas', 'trash']" />
+                    </button>
+                </div>
             </div>
-            <div class="meta-bar__end">
-                <ProjectDialogComponent :project="project" />
-                <button @click="deleteProject" class="button--danger">
-                    <font-awesome-icon :icon="['fas', 'trash']" />
-                </button>
-
-            </div>
+            <p>
+                {{ project.description }}
+            </p>
+        </div>
+        <div class="container" id="transports">
+            <h2>Transports</h2>
+            <TransportDialogComponent :project="project" />
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.header {
+    margin-bottom: 1rem;
+}
+
+
+
 .meta-bar {
     display: flex;
     flex-direction: row;
@@ -61,13 +75,15 @@
                 gap: 0.5rem;
                 background-color: #ccc;
                 border-radius: 20px;
-                padding: 0.5rem;
+                padding: 0.35rem 0.5rem;
 
-                font-size: 0.5rem !important;
+                &__text {
+                    font-size: .9rem;
+                }
 
                 & svg {
-                    height: 13px;
-                    width: 13px;
+                    height: 12px;
+                    width: 12px;
                 }
             }
         }

@@ -76,7 +76,7 @@ const notifications = notificationStore.notifications
 .notification.success {
     background: #4caf50;
 }
-im
+
 .notification.error {
     background: #f44336;
 }

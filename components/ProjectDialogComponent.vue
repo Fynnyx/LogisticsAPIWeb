@@ -18,11 +18,13 @@ const notificationStore = useNotificationsStore();
 let project = {
     name: '',
     keyName: '',
+    description: '',
 };
 
 if (propProject) {
     project.keyName = propProject.keyName as string
     project.name = propProject.name as string
+    project.description = propProject.description as string
 }
 
 const dialog = ref<HTMLDialogElement | null>(null)
@@ -51,7 +53,10 @@ const createProject = async () => {
 const updateProject = async () => {
     propProject.keyName = project.keyName
     propProject.name = project.name
-    const updatedProject: Project = await Project.updateProject(propProject?.id as number, Project.fromJson(propProject))
+    propProject.description = project.description
+    propProject.owner = {} as User,
+    propProject.owner.id = propProject.owner.id as number
+    const updatedProject = await propProject.update(propProject)
     window.location.href = `/projects/${updatedProject.keyName}`
 }
 
@@ -61,10 +66,10 @@ const updateProject = async () => {
     <div class="create-project">
 
         <div class="create-project__open-button">
-            <button v-if="propProject" @click="openDialog" class="button--warning create-project__open-button__button">
+            <button v-if="propProject" @click.prevent="openDialog" class="button--warning create-project__open-button__button">
                 <font-awesome-icon :icon="['fas', 'pen']" />
             </button>
-            <button v-else @click="openDialog" class="button--primary create-project__open-button__button">
+            <button v-else @click.prevent="openDialog" class="button--primary create-project__open-button__button">
                 <font-awesome-icon :icon="['fas', 'plus']" />
             </button>
         </div>
@@ -76,21 +81,23 @@ const updateProject = async () => {
                     @click="closeDialog">&times;</button>
             </div>
             <div class="create-project__dialog__content__body dialog__body">
-                <div class="create-project__dialog__content__body__form">
-                    <div class="create-project__dialog__content__body__form__inputs">
-                        <input type="text" placeholder="Project Name" v-model="project.name" />
-                        <input type="text" placeholder="Project Key" v-model="project.keyName" />
-
+                <form class="create-project__dialog__content__body__form">
+                    <!-- <div class="create-project__dialog__content__body__form__inputs"> -->
+                        <input type="text" placeholder="Project Name" v-model="project.name" class="input--medium" />
+                        <input type="text" placeholder="Project Key" v-model="project.keyName" class="input--medium" />
+                        <textarea placeholder="Project Description" v-model="project.description" class="input--large"></textarea>
+                    <!-- </div> -->
+                    <div class="form__actions">
+                        <button v-if="propProject" @click="updateProject"
+                            class="create-project__dialog__content__body__form__button button--warning">
+                            Update
+                        </button>
+                        <button v-else @click="createProject"
+                            class="create-project__dialog__content__body__form__button button--primary">
+                            Create
+                        </button>
                     </div>
-                    <button v-if="propProject" @click="updateProject"
-                        class="create-project__dialog__content__body__form__button button--warning">
-                        Update
-                    </button>
-                    <button v-else @click="createProject"
-                        class="create-project__dialog__content__body__form__button button--primary">
-                        Create
-                    </button>
-                </div>
+                </form>
             </div>
         </dialog>
 
@@ -102,49 +109,5 @@ const updateProject = async () => {
     display: flex;
     flex-direction: row;
     width: 100%;
-
-    &__open-button {
-        display: flex;
-
-        // &__button {
-
-        // &:hover {
-        // }
-
-        // & svg {
-        // }
-        // }
-    }
-
-    &__dialog {
-
-        &__content {
-
-            // &__header {
-
-            //     &__title {}
-
-            //     &__close-button {}
-            // }
-
-            &__body {
-
-                &__form {
-                    display: flex;
-                    flex-direction: column;
-
-                    // &__inputs {
-
-                    //     input {}
-                    // }
-
-                    &__button {
-                        margin-top: 1rem;
-                        align-self: center;
-                    }
-                }
-            }
-        }
-    }
 }
 </style>
