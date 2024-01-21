@@ -18,7 +18,7 @@ export default defineNuxtRouteMiddleware( async (to) => {
       user.value = userData?.value as User | null;
       await authStore.fetchUserData()
     }
-  
+
     // if token exists and url is /login redirect to homepage
     if (tokenCookie.value && to?.name === 'auth-login') {
       notificationStore.addNotificationToStore(

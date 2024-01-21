@@ -7,7 +7,7 @@ const { authenticateUser } = useAuthStore(); // use authenticateUser action from
 const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
 
 const user = ref({
-  username: '', 
+  username: '',
   password: '',
 })
 const router = useRouter();
@@ -23,22 +23,29 @@ const login = async () => {
 </script>
 
 <template>
-    <h1>Login</h1>
-    <div class="login-container">
-        <input v-model="user.username" type="text" placeholder="Username" required autofocus/>
+  <h1>Login</h1>
+  <div class="login-container">
+    <form action="">
+      <label class="input--large">
+        <input v-model="user.username" type="text" placeholder="Username" required autofocus />
+      </label>
+      <label class="input--large">
         <input v-model="user.password" type="password" placeholder="Password" required />
+      </label>
+      <div class="form__actions">
         <button class="button--primary" @click="login">Login</button>
-    </div>    
+      </div>
+    </form>
+  </div>
 </template>
 
 <style lang="scss">
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 300px;
-    border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 300px;
+  border-radius: 5px;
 }
-
 </style>

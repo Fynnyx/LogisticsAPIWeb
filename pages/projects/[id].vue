@@ -1,25 +1,103 @@
 <template>
     <div v-if="project">
-        <h1>Project - {{ project.name }}</h1>
-        <div class="info-bar">
-            <div class="info-bar__info">
-                <div class="info-bar__item">
-                    <span>Key Name</span>
-                    <span>{{ project.keyName }}</span>
+        <div class="header">
+            <h1>Project - {{ project.name }}</h1>
+            <div class="meta-bar">
+                <div class="meta-bar__start">
+                    <ul class="meta-bar__start__list">
+                        <li class="meta-bar__start__list__item">
+                            <!-- Id -->
+                            <font-awesome-icon :icon="['fas', 'hashtag']" />
+                            <span class="meta-bar__start__list__item__text">{{ project.id }}</span>
+                        </li>
+                        <li class="meta-bar__start__list__item">
+                            <!-- Keyname -->
+                            <font-awesome-icon :icon="['fas', 'key']" />
+                            <span class="meta-bar__start__list__item__text">{{ project.keyName }}</span>
+                        </li>
+                        <li class="meta-bar__start__list__item">
+                            <!-- Created At -->
+                            <font-awesome-icon :icon="['fas', 'calendar-alt']" />
+                            <span class="meta-bar__start__list__item__text">{{ project.createdAt }}</span>
+                        </li>
+                    </ul>
                 </div>
-                <div class="info-bar__item">
-                    <span>Created At</span>
-                    <span>{{ DateHelper.parseDateToString(project.createdAt) }}</span>
+                <div class="meta-bar__end">
+                    <ProjectDialogComponent :project="project" />
+                    <button @click="deleteProject" class="button--danger">
+                        <font-awesome-icon :icon="['fas', 'trash']" />
+                    </button>
                 </div>
             </div>
-            <div class="info-bar__actions">
-                <button class="btn btn--primary">Edit</button>
-                <button class="btn btn--danger">Delete</button>
-            </div>
+            <p>
+                {{ project.description }}
+            </p>
         </div>
-        <p>{{ project }}</p>
+        <div class="container" id="transports">
+            <h2>Transports</h2>
+            <TransportDialogComponent :project="project" />
+        </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.header {
+    margin-bottom: 1rem;
+}
+
+
+
+.meta-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+
+    &__start {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &__list {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            &__item {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.5rem;
+                background-color: #ccc;
+                border-radius: 20px;
+                padding: 0.35rem 0.5rem;
+
+                &__text {
+                    font-size: .9rem;
+                }
+
+                & svg {
+                    height: 12px;
+                    width: 12px;
+                }
+            }
+        }
+    }
+
+    &__end {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: .5rem;
+    }
+
+}
+</style>
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
@@ -56,47 +134,16 @@ async function fetchProjectData<Project>(keyName: String) {
 
 project = await fetchProjectData<Project>(id)
 
-notificationStore.addNotificationToStore(
-    {
-        header: 'Welcome to your project',
-        message: `You accessed your ${project.name} project`,
-        type: NotificationType.SUCCESS
-    }
-)
-</script>
+// notificationStore.addNotificationToStore(
+//     {
+//         header: 'Welcome to your project',
+//         message: `You accessed your ${project.name} project`,
+//         type: NotificationType.SUCCESS
+//     }
+// )
 
-<style lang="scss" scoped>
-.info-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 20px;
-
-    &__info {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        flex: 1;
-        color: #666;
-    }
-
-    &__item {
-        display: flex;
-        flex-direction: column;
-        margin-right: 20px;
-
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-
-    &__actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px;
-    }
+function deleteProject() {
+    Project.deleteProject(project.id)
+    window.location.href = '/'
 }
-</style>
+</script>
