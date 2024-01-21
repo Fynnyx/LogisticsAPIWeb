@@ -1,12 +1,26 @@
 <script lang="ts" setup>
+import { useNotificationsStore } from '@/store/notifications';
 import { Project } from '~/types/api/Project';
-import { User } from 'types/api/User';
+import { User } from '@/types/api/User';
+import { storeToRefs } from 'pinia';
+import { NotificationType } from '@/types/components/Notification';
 
-// project variable to be used in the form
-let project = {
-    name: '',
-    keyName: '',
-};
+const notificationStore = useNotificationsStore()
+
+let project: Project | null = null;
+
+
+const props = defineProps({
+    project: {
+        type: Object as PropType<Project>,
+        required: false,
+    },
+})
+
+if (props.project) {
+    project = props.project
+}
+
 const dialog = ref<HTMLDialogElement | null>(null)
 
 const openDialog = () => {
@@ -18,8 +32,32 @@ const closeDialog = () => {
 }
 
 const createProject = async () => {
-    const createdProject: Project = await Project.createProject(Project.fromJson(project))
+    if (!project) {
+        return notificationStore.addNotificationToStore(
+            {
+                header: 'Error',
+                message: `Project is null`,
+                type: NotificationType.ERROR
+            }
+        )
+    }
+    const createdProject: Project = await Project.createProject(project)
 }
+
+const updateProject = async () => {
+    if (!project) {
+        return notificationStore.addNotificationToStore(
+            {
+                header: 'Error',
+                message: `Project is null`,
+                type: NotificationType.ERROR
+            }
+        )
+    }
+    const updatedProject: Project = await Project.updateProject(project)
+}
+
+console.log(project);
 
 </script>
 
@@ -27,8 +65,8 @@ const createProject = async () => {
     <div class="create-project">
 
         <div class="create-project__open-button">
-            <button @click="openDialog" class="create-project__open-button__button">
-                <font-awesome-icon :icon="['fas', 'plus']" />
+            <button @click="openDialog" class="create-project__open-button__button button--primary">
+                <font-awesome-icon :icon="project ? ['fas', 'plus'] : ['fas', 'edit']" />
             </button>
         </div>
 
@@ -41,12 +79,13 @@ const createProject = async () => {
             <div class="create-project__dialog__content__body dialog__body">
                 <div class="create-project__dialog__content__body__form">
                     <div class="create-project__dialog__content__body__form__inputs">
-                        <input type="text" placeholder="Project Name" v-model="project.name" />
-                        <input type="text" placeholder="Project Key" v-model="project.keyName" />
+                        <input type="text" placeholder="Project Name" v-model="project?.name" />
+                        <input type="text" placeholder="Project Key" v-model="project?.keyName" />
 
                     </div>
-                    <button @click="createProject"
-                        class="create-project__dialog__content__body__form__button button--primary">Create</button>
+                    <button @click="project ? createProject : updateProject"
+                        class="create-project__dialog__content__body__form__button button--primary">{{ project ? "Update" :
+                            "Create" }}</button>
                 </div>
             </div>
         </dialog>
@@ -64,29 +103,10 @@ const createProject = async () => {
         display: flex;
         margin: 0.5rem 0 1.5rem 0.5rem;
 
-        &__button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: $light-grey 3px solid;
-            border-radius: 50%;
-            background-color: transparent;
-            width: 50px;
-            height: 50px;
-            color: $light-grey;
-
-            &:hover {
-                animation: fade-in 1s ease-in-out;
-                border: $dark-grey 3px solid;
-                color: $dark-grey;
-                cursor: pointer;
-            }
-
-            & svg {
-                width: 25px;
-                height: 25px;
-            }
-        }
+        // &__button {
+        // & svg {
+        // }
+        // }
     }
 
     &__dialog {
@@ -101,7 +121,6 @@ const createProject = async () => {
             // }
 
             &__body {
-
                 &__form {
                     display: flex;
                     flex-direction: column;

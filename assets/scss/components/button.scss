@@ -32,6 +32,11 @@ $button-styles: (
     &:hover {
         background-color: darken(map-get($styles, background-color), 10%);
     }
+
+    & svg {
+        width: auto;
+        height: 20px
+    }
 }
 
 .button {

@@ -26,7 +26,7 @@ projects = Project.fromJsonList(user.value?.projects as JSON[])
 <template>
   <h1>Home</h1>
   <div class="project-card-container">
-    <CreateProjectComponent />
+    <CreateProjectComponent :project="null" />
 
     <ul class="project-card-list">
       <li v-for="project in projects" :key="(project.keyName as string)" class="project-card-item">

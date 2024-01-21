@@ -93,5 +93,33 @@ export class Project {
         return Project.fromJson(data.value as any);
     }
 
+    static async updateProject(projectData: Project): Promise<Project> {
+        const { token } = storeToRefs(useAuthStore());
+        const config = useRuntimeConfig();
+        const { data } = await useFetch(`${config.public.apiUrl}/projects/${projectData.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify(projectData)
+        })
+        useAuthStore().fetchUserData();
+        return Project.fromJson(data.value as any);
+    }
 
+    static async deleteProject(projectData: Project): Promise<Project> {
+        const { token } = storeToRefs(useAuthStore());
+        const config = useRuntimeConfig();
+        const { data } = await useFetch(`${config.public.apiUrl}/projects/${projectData.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token.value}`
+            },
+            body: JSON.stringify(projectData)
+        })
+        useAuthStore().fetchUserData();
+        return Project.fromJson(data.value as any);
+    }
 }
